@@ -1,6 +1,6 @@
 # Step 03 — Effects (Effect-as-data)
 
-## 추가된 개념 (step-02 대비)
+## 추가된 개념 (step-02c 대비)
 **Effect-as-data + Interpreter** — reducer 는 새 state 와 함께 "할 일(effect) 객체 리스트"를 돌려주고, **Interpreter** 가 그 effect 를 실제로 실행한다.
 
 ## 왜 필요한가

@@ -12,7 +12,9 @@
 | # | 폴더 | 추가되는 개념 |
 |---|---|---|
 | 1 | `step-01-onoff/` | **Pure Reducer** — `(state, event) → new state` |
-| 2 | `step-02-runtime/` | **Runtime 셸** — dispatch, subscribe, listener 통지 |
+| 2a | `step-02a-storage/` | **Storage** — state 통 + dispatch 만 (listener 없음) |
+| 2b | `step-02b-observer-pattern/` | **Observer 패턴** — Runtime 과 분리한 구독·통지 단독 학습 |
+| 2c | `step-02c-subscribe/` | **Runtime** = Storage + Observer 합본 |
 | 3 | `step-03-effects/` | **Effect-as-data** — reducer 가 effect 도 반환, Interpreter 가 실행 |
 | 4 | `step-04-async-result/` | **비동기 결과를 event 로** — setTimeout 후 새 event dispatch (단방향) |
 | 5 | `step-05-fencing/` | **Fencing token** — 취소 후 늦은 결과 폐기 |
@@ -23,7 +25,10 @@
 
 ```bash
 pnpm tsx steps/step-01-onoff/main.ts
-pnpm tsx steps/step-02-runtime/main.ts
+pnpm tsx steps/step-02a-storage/main.ts
+pnpm tsx steps/step-02b-observer-pattern/main.ts
+pnpm tsx steps/step-02c-subscribe/main.ts
+pnpm tsx steps/step-03-effects/main.ts
 # ...
 pnpm tsx steps/step-07-outbox-reconcile/main.ts
 ```

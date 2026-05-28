@@ -147,7 +147,9 @@ pnpm demo       # 시나리오 실행
 | # | 폴더 | 추가되는 개념 |
 |---|---|---|
 | 1 | `step-01-onoff` | Pure Reducer |
-| 2 | `step-02-runtime` | Runtime 셸 (dispatch · subscribe) |
+| 2a | `step-02a-storage` | Storage (state 통 + dispatch) |
+| 2b | `step-02b-observer-pattern` | Observer 패턴 단독 (Runtime 과 분리) |
+| 2c | `step-02c-subscribe` | Runtime = Storage + Observer 합본 |
 | 3 | `step-03-effects` | Effect-as-data + Interpreter |
 | 4 | `step-04-async-result` | 비동기 결과를 event 로 (단방향) |
 | 5 | `step-05-fencing` | Fencing token (취소 후 늦은 결과 폐기) |
