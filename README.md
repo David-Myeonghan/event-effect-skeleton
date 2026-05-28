@@ -141,6 +141,23 @@ pnpm demo       # 시나리오 실행
 
 ## 학습 동선
 
+### 입문 — `steps/` 부터 한 층씩 (추천)
+[`steps/README.md`](steps/README.md) 의 7단계를 1→7 순서로 따라가면 0부터 완성형까지 한 개념씩 추가됩니다. 각 step 은 self-contained `main.ts` 하나 + 짧은 README.
+
+| # | 폴더 | 추가되는 개념 |
+|---|---|---|
+| 1 | `step-01-onoff` | Pure Reducer |
+| 2 | `step-02-runtime` | Runtime 셸 (dispatch · subscribe) |
+| 3 | `step-03-effects` | Effect-as-data + Interpreter |
+| 4 | `step-04-async-result` | 비동기 결과를 event 로 (단방향) |
+| 5 | `step-05-fencing` | Fencing token (취소 후 늦은 결과 폐기) |
+| 6 | `step-06-bounded-pool` | 동시 실행 한도 · drain |
+| 7 | `step-07-outbox-reconcile` | 영속 + 복구 (optimistic + eventual) |
+
+각 step 실행: `pnpm tsx steps/step-XX-.../main.ts`
+
+### 심화 — `src/` 완성형 라이브러리
+steps 를 끝낸 뒤엔 `src/` 가 이미 익숙해 보입니다.
 1. **이 README 의 8원칙** — 무엇을 푸는 뼈대인지 감 잡기
 2. `src/core/types.ts` — 가장 추상적인 골격 타입
 3. `src/core/runtime.ts` — `dispatch → reduce → effects` 한 사이클

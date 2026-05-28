@@ -1,0 +1,85 @@
+// step-03-effects — Effect-as-data 패턴.
+//
+// step-02 와 다른 점:
+//   - reducer 가 (state, event) → (new state, effects[]) 를 돌려준다.
+//   - effect 는 "할 일 데이터" — 실제 IO 는 Interpreter 가 수행.
+//   - reducer 는 여전히 순수 (console.log 같은 IO 가 없다).
+
+type State = { on: boolean };
+
+type Event = { kind: 'TOGGLE' };
+
+type Effect = { kind: 'LOG'; message: string };
+
+type ReduceResult = {
+  state: State;
+  effects: Effect[];
+};
+
+function reduce(state: State, event: Event): ReduceResult {
+  switch (event.kind) {
+    case 'TOGGLE': {
+      const next = !state.on;
+      return {
+        state: { on: next },
+        effects: [{ kind: 'LOG', message: `toggled → ${next ? 'ON' : 'OFF'}` }],
+      };
+    }
+  }
+}
+
+type Interpreter<TEffect> = (effect: TEffect) => void;
+
+class Runtime<TState, TEvent, TEffect> {
+  private state: TState;
+  private readonly listeners = new Set<(state: TState) => void>();
+
+  constructor(
+    initial: TState,
+    private readonly reducer: (s: TState, e: TEvent) => { state: TState; effects: TEffect[] },
+    private readonly interpreter: Interpreter<TEffect>,
+  ) {
+    this.state = initial;
+  }
+
+  getState(): TState {
+    return this.state;
+  }
+
+  dispatch(event: TEvent): void {
+    const { state, effects } = this.reducer(this.state, event);
+    this.state = state;
+    for (const l of this.listeners) l(state);
+    for (const effect of effects) this.interpreter(effect);
+  }
+
+  subscribe(listener: (s: TState) => void): () => void {
+    this.listeners.add(listener);
+    return () => {
+      this.listeners.delete(listener);
+    };
+  }
+}
+
+// ─── Interpreter — 실제 IO 가 일어나는 자리 ──────────────────
+const interpret: Interpreter<Effect> = (effect) => {
+  if (effect.kind === 'LOG') {
+    console.log('[effect]', effect.message);
+  }
+};
+
+// ─── 사용 예 ──────────────────────────────────────────────
+const rt = new Runtime<State, Event, Effect>({ on: false }, reduce, interpret);
+
+rt.subscribe((s) => {
+  console.log(`[state] on=${s.on}`);
+});
+
+rt.dispatch({ kind: 'TOGGLE' });
+rt.dispatch({ kind: 'TOGGLE' });
+rt.dispatch({ kind: 'TOGGLE' });
+
+// 순수성 확인 — reducer 는 IO 없이 effect 만 반환.
+const r1 = reduce({ on: false }, { kind: 'TOGGLE' });
+const r2 = reduce({ on: false }, { kind: 'TOGGLE' });
+console.log('reducer pure?:', JSON.stringify(r1) === JSON.stringify(r2));
