@@ -48,3 +48,7 @@ pnpm tsx steps/step-07b-reconcile/main.ts
 5. 다음 step 으로.
 
 7b 까지 끝나면 `src/` 의 완성형 라이브러리가 이미 익숙해 보일 것이다. `src/demo/jobQueue.ts` 는 step-07b 의 약간 더 큰 버전.
+
+## 부록
+
+step 의 주제는 아니지만 따라가려면 알아야 하는 기반 개념 — 옵저버 패턴·클로저/레퍼런스·no-op·함수 팩토리(DI)·`setTimeout` 대역(+실제 Dentbird Batch 매핑) — 은 [`APPENDIX-concepts.md`](APPENDIX-concepts.md) 에 모아 두었다.
