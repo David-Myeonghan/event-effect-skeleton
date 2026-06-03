@@ -22,4 +22,4 @@ pnpm tsx steps/step-01-onoff/main.ts
 ```
 
 ## 다음 step
-매번 `state = reduce(...)` 를 손으로 쓰는 건 번거롭고, 상태 변화에 반응할 방법(구독)도 없습니다 → **step-02-runtime** 에서 Runtime 셸을 도입합니다.
+매번 `state = reduce(...)` 를 손으로 쓰는 건 번거롭고, 상태 변화에 반응할 방법(구독)도 없습니다 → **step-02a-storage** 에서 state 를 들고 있는 "통(Storage)" 을 먼저 도입하고, 02b(옵저버)·02c(합본 Runtime) 로 이어집니다.

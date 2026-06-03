@@ -153,8 +153,10 @@ pnpm demo       # 시나리오 실행
 | 3 | `step-03-effects` | Effect-as-data + Interpreter |
 | 4 | `step-04-async-result` | 비동기 결과를 event 로 (단방향) |
 | 5 | `step-05-fencing` | Fencing token (취소 후 늦은 결과 폐기) |
-| 6 | `step-06-bounded-pool` | 동시 실행 한도 · drain |
-| 7 | `step-07-outbox-reconcile` | 영속 + 복구 (optimistic + eventual) |
+| 6a | `step-06a-multi` | 다중 상태 (타이머 1개 → 여러 개, 한도 없음) |
+| 6b | `step-06b-bounded` | 동시 실행 한도 · drain |
+| 7a | `step-07a-outbox` | 영속 (Outbox backoff retry, optimistic) |
+| 7b | `step-07b-reconcile` | 복구 (시작 시 rehydrate) |
 
 각 step 실행: `pnpm tsx steps/step-XX-.../main.ts`
 

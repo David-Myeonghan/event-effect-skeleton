@@ -67,6 +67,7 @@ class Runtime<TState, TEvent, TEffect> {
 const interpret: Interpreter<Effect, Event> = (effect, dispatch) => {
   if (effect.kind === 'SCHEDULE_TIMER') {
     console.log(`[effect] schedule timer in ${effect.ms}ms`);
+    // 출력: [effect] schedule timer in 1000ms
     setTimeout(() => dispatch({ kind: 'TIMER_FINISHED' }), effect.ms);
   }
 };
@@ -74,6 +75,17 @@ const interpret: Interpreter<Effect, Event> = (effect, dispatch) => {
 // ─── 사용 예 ──────────────────────────────────────────────
 const rt = new Runtime<State, Event, Effect>({ active: false }, reduce, interpret);
 rt.subscribe((s) => console.log(`[state] active=${s.active}`));
+// dispatch 마다 자동 호출 → [state] active=true / active=false
 
 rt.dispatch({ kind: 'START_TIMER' });
-// 1초 후 자동 TIMER_FINISHED → active=false. Node 가 setTimeout 끝나야 종료한다.
+// 즉시:
+//   1) listener     → 출력: [state] active=true
+//   2) interpreter  → 출력: [effect] schedule timer in 1000ms   (+ 1초 setTimeout 예약)
+// 1초 후 dispatch(TIMER_FINISHED) 가 자동 발생:
+//   3) listener     → 출력: [state] active=false
+// Node 는 setTimeout 이 끝나야 프로세스를 종료한다.
+//
+// ─── 종합 출력 ────────────────────────────────────────────
+// [state] active=true
+// [effect] schedule timer in 1000ms
+// [state] active=false        ← 1초 뒤, 비동기 결과가 event 로 돌아와 reducer 를 통과한 결과

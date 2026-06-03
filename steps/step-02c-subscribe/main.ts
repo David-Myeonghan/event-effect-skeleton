@@ -41,6 +41,9 @@ class Runtime<TState, TEvent> {
 
   dispatch(event: TEvent): void {
     this.state = this.reducer(this.state, event);
+    // 주의: 이 Runtime 은 dispatch 마다 *무조건* listener 를 호출한다. 이전 state 와
+    // 같은지(Object.is) 비교해서 통지를 건너뛰지 않는다 — 학습용으로 단순화한 선택.
+    // (그래서 reducer 가 state 를 안 바꿔도 listener 는 한 번 불린다. step-05 에서 이 성질이 눈에 보인다.)
     for (const l of this.listeners) l(this.state);
   }
 

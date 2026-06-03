@@ -18,8 +18,10 @@
 | 3 | `step-03-effects/` | **Effect-as-data** — reducer 가 effect 도 반환, Interpreter 가 실행 |
 | 4 | `step-04-async-result/` | **비동기 결과를 event 로** — setTimeout 후 새 event dispatch (단방향) |
 | 5 | `step-05-fencing/` | **Fencing token** — 취소 후 늦은 결과 폐기 |
-| 6 | `step-06-bounded-pool/` | **동시 실행 한도** — slot · drain · PENDING 대기 |
-| 7 | `step-07-outbox-reconcile/` | **영속 + 복구** — Outbox(backoff) + 시작 시 reconcile |
+| 6a | `step-06a-multi/` | **다중 상태** — 타이머 1개(스칼라) → 여러 개(Map), 한도 없음 |
+| 6b | `step-06b-bounded/` | **동시 실행 한도** — maxConcurrent · drain · PENDING 대기 |
+| 7a | `step-07a-outbox/` | **영속** — PERSIST effect + Outbox(backoff retry), optimistic |
+| 7b | `step-07b-reconcile/` | **복구** — 시작 시 SNAPSHOT_RECEIVED 로 rehydrate |
 
 ## 실행
 
@@ -29,8 +31,12 @@ pnpm tsx steps/step-02a-storage/main.ts
 pnpm tsx steps/step-02b-observer-pattern/main.ts
 pnpm tsx steps/step-02c-subscribe/main.ts
 pnpm tsx steps/step-03-effects/main.ts
-# ...
-pnpm tsx steps/step-07-outbox-reconcile/main.ts
+pnpm tsx steps/step-04-async-result/main.ts
+pnpm tsx steps/step-05-fencing/main.ts
+pnpm tsx steps/step-06a-multi/main.ts
+pnpm tsx steps/step-06b-bounded/main.ts
+pnpm tsx steps/step-07a-outbox/main.ts
+pnpm tsx steps/step-07b-reconcile/main.ts
 ```
 
 ## 진행 방법
@@ -41,4 +47,4 @@ pnpm tsx steps/step-07-outbox-reconcile/main.ts
 4. **이전 step 과 diff** 떠보기 — `diff steps/step-01*/main.ts steps/step-02*/main.ts` — 정확히 어떤 코드가 늘어났는지 보인다.
 5. 다음 step 으로.
 
-7번까지 끝나면 `src/` 의 완성형 라이브러리가 이미 익숙해 보일 것이다. `src/demo/jobQueue.ts` 는 step-07 의 약간 더 큰 버전.
+7b 까지 끝나면 `src/` 의 완성형 라이브러리가 이미 익숙해 보일 것이다. `src/demo/jobQueue.ts` 는 step-07b 의 약간 더 큰 버전.
