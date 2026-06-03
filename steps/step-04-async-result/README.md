@@ -38,5 +38,10 @@ const interpret: Interpreter<Effect, Event> = (effect, dispatch) => {
 pnpm tsx steps/step-04-async-result/main.ts
 ```
 
-## 다음 step
+## ✅ 체크포인트 — 여기까지가 "핵심"
+step-01~04 가 비동기 UI 어디서나 재사용하는 토대다: **Pure Reducer + 구독 + Effect-as-data + 비동기 결과를 event 로(단방향).** Redux/useReducer 를 쓰면 매일 만나는 골격이고, 이 네 개만 체화해도 대부분의 비동기 화면을 깔끔하게 다룰 수 있다.
+
+이어지는 **step-05~07 은 "심화"** 다 — "비동기 + 사용자 끼어듦 + 늦은/유실 결과 + crash 복구" 4박자가 다 모이는 시스템(배치 큐·파이프라인 등)에서만 필요하다. 지금 다 외울 필요 없다. 처음엔 "이런 게 있다"만 알고 넘어가도 좋다.
+
+## 다음 step (심화 시작)
 타이머가 도는 도중 **취소** 하고 싶다면? 단순히 state 를 inactive 로 바꿔도, 이미 예약된 setTimeout 은 결국 발화하고 `TIMER_FINISHED` event 가 도착해 state 를 또 건드립니다(취소된 케이스가 되살아남) → **step-05-fencing** 에서 fencing token 으로 해결.

@@ -9,7 +9,7 @@ import {
 import { FencingTokenIssuer } from '../src/sync/fencing.js';
 
 function setup(maxConcurrent = 2) {
-  const tokenIssuer = new FencingTokenIssuer(() => 1);
+  const tokenIssuer = new FencingTokenIssuer();
   const reducer = createJobQueueReducer({ tokenIssuer });
   let state: QueueState = createInitialState(maxConcurrent);
   const apply = (event: JobEvent): readonly JobEffect[] => {

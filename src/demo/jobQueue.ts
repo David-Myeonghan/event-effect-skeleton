@@ -8,7 +8,7 @@
 //   ⑤ Fencing token (취소 후 늦은 결과 폐기)
 //   ⑥ Bounded pool (slot, drain)
 //   ⑦ Reconcile (snapshot 흡수)
-//   ⑧ Port-Adapter (worker/store/clock 추상)
+//   ⑧ Port-Adapter (worker/store 추상)
 
 import type { DomainEffect, DomainEvent, Reducer } from '../core/types.js';
 import { pureState, withEffects } from '../core/reducer.js';
@@ -94,13 +94,12 @@ const toSnapshot = (job: Job): JobSnapshot => ({
 });
 
 // 슬롯 사용량 — PROCESSING 상태 잡 수.
-const slotsOf = (state: QueueState): { active: ReadonlySet<string>; opening: ReadonlySet<string> } => {
-  const active = new Set<string>();
-  for (const id of state.order) {
-    const job = state.jobs.get(id);
-    if (job?.status === 'PROCESSING') active.add(id);
+const countActive = (state: QueueState): number => {
+  let n = 0;
+  for (const job of state.jobs.values()) {
+    if (job.status === 'PROCESSING') n += 1;
   }
-  return { active, opening: new Set<string>() };
+  return n;
 };
 
 // PENDING 이 후보. 순서는 order 따른다.
@@ -121,8 +120,7 @@ const drain = (
   state: QueueState,
   deps: ReducerDeps,
 ): { state: QueueState; effects: JobEffect[] } => {
-  const slots = slotsOf(state);
-  const free = availableSlots(slots, state.maxConcurrent);
+  const free = availableSlots(countActive(state), state.maxConcurrent);
   if (free <= 0) return { state, effects: [] };
 
   const candidates = pickRunnable(state, free);

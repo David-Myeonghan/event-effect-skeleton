@@ -3,7 +3,7 @@ import { FencingTokenIssuer, isStale } from '../src/sync/fencing.js';
 
 describe('fencing token', () => {
   it('issues monotonically unique tokens', () => {
-    const issuer = new FencingTokenIssuer(() => 1000);
+    const issuer = new FencingTokenIssuer();
     const a = issuer.issue();
     const b = issuer.issue();
     expect(a).not.toBe(b);

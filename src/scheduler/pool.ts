@@ -1,22 +1,10 @@
-// Bounded worker pool — slot 추적 helper.
+// Bounded worker pool — slot 계산 helper.
 //
-// 상태(active/opening) 자체는 도메인 state 가 보유하고, 여기는 "얼마나 비었나"
-// "다음 후보 누구냐" 같은 결정만 도와주는 순수 함수.
-//
-// opening 까지 세는 이유: 창을 여는 동안 같은 슬롯에 다른 작업을 또 시작하면
-// 동시 실행 한도를 넘어버리기 때문.
+// 상태(어떤 job 이 실행 중인지) 자체는 도메인 state 가 보유하고, 여기는
+// "얼마나 비었나" "다음 후보 누구냐" 같은 순수 계산만 돕는다.
 
-export interface SlotState {
-  readonly active: ReadonlySet<string>;
-  readonly opening: ReadonlySet<string>;
-}
-
-export function inUse(slots: SlotState): number {
-  return slots.active.size + slots.opening.size;
-}
-
-export function availableSlots(slots: SlotState, maxConcurrent: number): number {
-  return Math.max(0, maxConcurrent - inUse(slots));
+export function availableSlots(activeCount: number, maxConcurrent: number): number {
+  return Math.max(0, maxConcurrent - activeCount);
 }
 
 /**

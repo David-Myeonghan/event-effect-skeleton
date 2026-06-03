@@ -9,14 +9,21 @@
 
 ## 순서 (반드시 1 → 7 순서로)
 
+> **핵심(1~4) vs 심화(5~7).** 1~4 는 비동기 UI 어디서나 쓰는 토대다 — 꼭 체화한다.
+> 5~7 은 "비동기 + 사용자 끼어듦 + 늦은/유실 결과 + crash 복구" 4박자가 **다 모이는** 시스템에서만
+> 필요한 본질적 복잡함이다. 처음엔 "이런 게 있다"만 알고 넘어가도 되고, 실제 그 문제를 만났을 때
+> 돌아와 펴 보면 된다. 5~7 이 복잡하게 느껴지는 건 정상 — 코드가 아니라 문제가 복잡한 것이다.
+
 | # | 폴더 | 추가되는 개념 |
 |---|---|---|
+| **핵심** | | **— 어디서나 재사용** |
 | 1 | `step-01-onoff/` | **Pure Reducer** — `(state, event) → new state` |
 | 2a | `step-02a-storage/` | **Storage** — state 통 + dispatch 만 (listener 없음) |
 | 2b | `step-02b-observer-pattern/` | **Observer 패턴** — Runtime 과 분리한 구독·통지 단독 학습 |
 | 2c | `step-02c-subscribe/` | **Runtime** = Storage + Observer 합본 |
 | 3 | `step-03-effects/` | **Effect-as-data** — reducer 가 effect 도 반환, Interpreter 가 실행 |
 | 4 | `step-04-async-result/` | **비동기 결과를 event 로** — setTimeout 후 새 event dispatch (단방향) |
+| **심화** | | **— 4박자 다 모일 때만 (레퍼런스)** |
 | 5 | `step-05-fencing/` | **Fencing token** — 취소 후 늦은 결과 폐기 |
 | 6a | `step-06a-multi/` | **다중 상태** — 타이머 1개(스칼라) → 여러 개(Map), 한도 없음 |
 | 6b | `step-06b-bounded/` | **동시 실행 한도** — maxConcurrent · drain · PENDING 대기 |

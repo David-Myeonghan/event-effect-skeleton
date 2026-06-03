@@ -59,7 +59,7 @@ batch-specific 디테일을 걷어내고 재사용 가능한 골격만 남긴 **
 src/
   core/
     types.ts        — DomainEvent · DomainEffect · Reducer · EffectInterpreter (제네릭)
-    reducer.ts      — pureState / withEffect 등 reducer 작성 helper
+    reducer.ts      — pureState / withEffects reducer 작성 helper
     runtime.ts      — dispatch → reduce → effects 실행 (single-writer)
 
   effects/
@@ -73,8 +73,8 @@ src/
     fencing.ts      — Generation token issuer + isStale 판정
     reconciler.ts   — apply / add / ignore policy 기반 snapshot 정리
 
-  ports/            — DurableStore · Worker · Clock 추상 (Hexagonal)
-  adapters/         — InMemoryDurableStore · FakeWorker · Clocks (구현)
+  ports/            — DurableStore · Worker 추상 (Hexagonal)
+  adapters/         — InMemoryDurableStore · FakeWorker (구현)
 
   demo/
     jobQueue.ts     — generic job queue 도메인 (8원칙 전부 만짐)
@@ -144,14 +144,18 @@ pnpm demo       # 시나리오 실행
 ### 입문 — `steps/` 부터 한 층씩 (추천)
 [`steps/README.md`](steps/README.md) 의 7단계를 1→7 순서로 따라가면 0부터 완성형까지 한 개념씩 추가됩니다. 각 step 은 self-contained `main.ts` 하나 + 짧은 README.
 
+**핵심(1~4)** 은 비동기 UI 어디서나 재사용하는 토대이고, **심화(5~7)** 는 "비동기 + 사용자 끼어듦 + 늦은/유실 결과 + crash 복구" 4박자가 다 모이는 시스템에서만 필요하다. 처음엔 1~4 를 체화하고, 5~7 은 "이런 게 있다"만 알고 넘어가도 된다 — 실제로 그 문제를 만났을 때 돌아와 펴 보는 레퍼런스다.
+
 | # | 폴더 | 추가되는 개념 |
 |---|---|---|
+| **핵심** | | **— 어디서나 재사용** |
 | 1 | `step-01-onoff` | Pure Reducer |
 | 2a | `step-02a-storage` | Storage (state 통 + dispatch) |
 | 2b | `step-02b-observer-pattern` | Observer 패턴 단독 (Runtime 과 분리) |
 | 2c | `step-02c-subscribe` | Runtime = Storage + Observer 합본 |
 | 3 | `step-03-effects` | Effect-as-data + Interpreter |
 | 4 | `step-04-async-result` | 비동기 결과를 event 로 (단방향) |
+| **심화** | | **— 4박자 다 모일 때만 (레퍼런스)** |
 | 5 | `step-05-fencing` | Fencing token (취소 후 늦은 결과 폐기) |
 | 6a | `step-06a-multi` | 다중 상태 (타이머 1개 → 여러 개, 한도 없음) |
 | 6b | `step-06b-bounded` | 동시 실행 한도 · drain |

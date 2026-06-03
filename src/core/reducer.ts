@@ -9,25 +9,10 @@ export function pureState<TState, TEffect extends DomainEffect>(
   return { state, effects: [] };
 }
 
-/** 상태 + 단일 effect. */
-export function withEffect<TState, TEffect extends DomainEffect>(
-  state: TState,
-  effect: TEffect,
-): ReducerResult<TState, TEffect> {
-  return { state, effects: [effect] };
-}
-
-/** 상태 + 여러 effect. */
+/** 상태 + 여러 effect. (effect 1개면 `withEffects(state, [e])`.) */
 export function withEffects<TState, TEffect extends DomainEffect>(
   state: TState,
   effects: readonly TEffect[],
 ): ReducerResult<TState, TEffect> {
   return { state, effects };
-}
-
-/** event 를 무시(상태 변경 없음, effect 없음) — stale event 등. */
-export function ignore<TState, TEffect extends DomainEffect>(
-  state: TState,
-): ReducerResult<TState, TEffect> {
-  return { state, effects: [] };
 }

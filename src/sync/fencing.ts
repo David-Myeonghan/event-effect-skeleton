@@ -8,11 +8,11 @@ export type FencingToken = string;
 
 export class FencingTokenIssuer {
   private seq = 0;
-  constructor(private readonly now: () => number = () => Date.now()) {}
 
+  // 단조 증가 seq 만으로 유일성·신구 판별이 끝난다 (stale 판정은 일치/불일치만 본다).
   issue(): FencingToken {
     this.seq += 1;
-    return `t-${this.now().toString(36)}-${this.seq.toString(36)}`;
+    return `t-${this.seq.toString(36)}`;
   }
 }
 
